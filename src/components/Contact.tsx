@@ -56,10 +56,28 @@ export const Contact = () => {
       return
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    toast.success('¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.')
-    setFormData({ nombre: '', email: '', telefono: '', mensaje: '' })
-    setIsSubmitting(false)
+    // Prepare Netlify form submission
+    const body = new URLSearchParams()
+    body.set('form-name', 'contact')
+    Object.entries(formData).forEach(([key, value]) => {
+      body.set(key, value)
+    })
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString()
+      })
+
+      toast.success('¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.')
+      setFormData({ nombre: '', email: '', telefono: '', mensaje: '' })
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error)
+      toast.error('Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -156,7 +174,15 @@ export const Contact = () => {
             transition={{ duration: 0.7 }}
             className="lg:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="card-premium rounded-3xl p-5 sm:p-6 md:p-10 overflow-hidden">
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              onSubmit={handleSubmit}
+              className="card-premium rounded-3xl p-5 sm:p-6 md:p-10 overflow-hidden"
+            >
+              <input type="hidden" name="form-name" value="contact" />
+
               <h3 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-6 md:mb-8">
                 Envíanos un Mensaje
               </h3>

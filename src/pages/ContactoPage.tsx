@@ -77,12 +77,29 @@ const ContactoPage = () => {
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true)
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    console.log('Form data:', data)
-    toast.success('¡Mensaje enviado correctamente! Te contactaremos pronto.')
-    reset()
-    setIsSubmitting(false)
+
+    // Prepare Netlify form submission
+    const body = new URLSearchParams()
+    body.set('form-name', 'contact-page')
+    Object.entries(data).forEach(([key, value]) => {
+      body.set(key, value)
+    })
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString()
+      })
+
+      toast.success('¡Mensaje enviado correctamente! Te contactaremos pronto.')
+      reset()
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error)
+      toast.error('Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -196,7 +213,15 @@ const ContactoPage = () => {
                       Rellena el formulario y te responderemos en menos de 24 horas.
                     </p>
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <form
+                      name="contact-page"
+                      method="POST"
+                      data-netlify="true"
+                      onSubmit={handleSubmit(onSubmit)}
+                      className="space-y-6"
+                    >
+                      <input type="hidden" name="form-name" value="contact-page" />
+
                       <div className="grid md:grid-cols-2 gap-6">
                         <div>
                           <label className="block text-sm font-medium text-foreground mb-2">

@@ -43,10 +43,30 @@ export const ServiceDetailTemplate = ({ service }: ServiceDetailTemplateProps) =
     }
 
     setIsSubmitting(true)
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    toast.success('¡Solicitud enviada! Te contactaremos pronto.')
-    setFormData({ name: '', email: '', phone: '', message: '' })
-    setIsSubmitting(false)
+
+    // Prepare Netlify form submission
+    const body = new URLSearchParams()
+    body.set('form-name', 'service-detail-quote')
+    body.set('service-type', service.title)
+    Object.entries(formData).forEach(([key, value]) => {
+      body.set(key, value)
+    })
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString()
+      })
+
+      toast.success('¡Solicitud enviada! Te contactaremos pronto.')
+      setFormData({ name: '', email: '', phone: '', message: '' })
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error)
+      toast.error('Hubo un error al enviar la solicitud. Por favor, inténtalo de nuevo.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const Icon = service.icon
@@ -256,7 +276,16 @@ export const ServiceDetailTemplate = ({ service }: ServiceDetailTemplateProps) =
                       Cuéntanos tu proyecto de {service.title.toLowerCase()} y te contactaremos sin compromiso.
                     </p>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form
+                      name="service-detail-quote"
+                      method="POST"
+                      data-netlify="true"
+                      onSubmit={handleSubmit}
+                      className="space-y-4"
+                    >
+                      <input type="hidden" name="form-name" value="service-detail-quote" />
+                      <input type="hidden" name="service-type" value={service.title} />
+
                       <div className="space-y-2">
                         <Label htmlFor="name">Nombre completo</Label>
                         <Input
