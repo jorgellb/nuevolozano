@@ -11,6 +11,7 @@ import { TownData } from '@/data/townsData'
 import { z } from 'zod'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { useLanguage } from '@/hooks/useLanguage'
 
 const quoteSchema = z.object({
   name: z.string().trim().min(1, 'El nombre es obligatorio').max(100),
@@ -25,6 +26,7 @@ interface ServicePageTemplateProps {
 }
 
 export const ServicePageTemplate = ({ town }: ServicePageTemplateProps) => {
+  const { localizedPath } = useLanguage()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -77,7 +79,7 @@ export const ServicePageTemplate = ({ town }: ServicePageTemplateProps) => {
       <main className="pt-48 pb-10">
         <div className="container mx-auto px-6 mb-8">
           <Link
-            to="/"
+            to={localizedPath("/")}
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors px-4 py-2 rounded-full bg-accent/5 hover:bg-accent/10 border border-border/50"
           >
             <ArrowLeft className="w-4 h-4" />

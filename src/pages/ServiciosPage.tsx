@@ -7,13 +7,17 @@ import { Footer } from '@/components/Footer'
 import { SEOHead } from '@/components/SEOHead'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import { servicesData } from '@/data/servicesData'
+import { useLanguage } from '@/hooks/useLanguage'
+import { useTranslation } from 'react-i18next'
 
 const ServiciosPage = () => {
+  const { localizedPath } = useLanguage()
+  const { t } = useTranslation()
   return (
     <HelmetProvider>
       <SEOHead 
-        title="Nuestros Servicios | Metales Del Sureste Andaluz"
-        description="Descubre todos nuestros servicios de carpintería metálica: estructuras metálicas, carpintería de aluminio, cerrajería, automatización, forja artística y más."
+        title={t('services.pageTitle')}
+        description={t('services.pageDescription')}
       />
       <div className="min-h-screen bg-background">
         <Header />
@@ -34,15 +38,14 @@ const ServiciosPage = () => {
               >
                 <span className="tag-premium inline-flex items-center gap-2 mb-6">
                   <Sparkles className="w-4 h-4" />
-                  Excelencia en Metal
+                  {t('services.tagExcellence')}
                 </span>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-8 leading-tight">
-                  Nuestros{' '}
-                  <span className="text-gradient-gold">Servicios</span>
+                  {t('services.pageHeading')}{' '}
+                  <span className="text-gradient-gold">{t('services.pageHeadingHighlight')}</span>
                 </h1>
                 <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-                  Soluciones integrales en carpintería metálica con más de una década 
-                  de experiencia y los más altos estándares de calidad.
+                  {t('services.pageSubtitle')}
                 </p>
                 <div className="ornament-line mx-auto mt-10" />
               </motion.div>
@@ -64,7 +67,7 @@ const ServiciosPage = () => {
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                       className="group"
                     >
-                      <Link to={`/servicio/${service.slug}`} className="block h-full">
+                      <Link to={localizedPath(`/servicio/${service.slug}`)} className="block h-full">
                         <div className="card-premium h-full rounded-3xl overflow-hidden relative">
                           {/* Background gradient on hover */}
                           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -77,7 +80,7 @@ const ServiciosPage = () => {
                               </div>
                               <div>
                                 <span className="text-sm font-semibold text-primary uppercase tracking-wider">
-                                  Servicio {String(index + 1).padStart(2, '0')}
+                                  {t('services.service')} {String(index + 1).padStart(2, '0')}
                                 </span>
                                 <h2 className="text-2xl lg:text-3xl font-display font-bold text-foreground mt-2 group-hover:text-gradient-gold transition-all duration-300">
                                   {service.title}
@@ -102,7 +105,7 @@ const ServiciosPage = () => {
 
                             {/* CTA */}
                             <div className="flex items-center gap-2 text-primary font-semibold group-hover:gap-4 transition-all duration-300">
-                              <span>Ver detalles del servicio</span>
+                              <span>{t('services.viewDetails')}</span>
                               <ArrowRight className="w-5 h-5" />
                             </div>
                           </div>
@@ -130,14 +133,13 @@ const ServiciosPage = () => {
                 className="text-center max-w-3xl mx-auto"
               >
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-6">
-                  ¿Necesitas un <span className="text-gradient-gold">presupuesto</span>?
+                  {t('services.ctaTitle')} <span className="text-gradient-gold">{t('services.ctaTitleHighlight')}</span>?
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  Contacta con nosotros para obtener un presupuesto personalizado sin compromiso. 
-                  Estamos aquí para ayudarte con tu proyecto.
+                  {t('services.ctaDescription')}
                 </p>
-                <Link to="/contacto" className="btn-premium inline-flex items-center gap-2">
-                  Solicitar Presupuesto
+                <Link to={localizedPath("/contacto")} className="btn-premium inline-flex items-center gap-2">
+                  {t('services.ctaButton')}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </motion.div>

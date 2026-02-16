@@ -6,6 +6,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { SEOHead } from '@/components/SEOHead'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
+import { useLanguage } from '@/hooks/useLanguage'
 
 const projects = [
   {
@@ -93,6 +94,7 @@ const projects = [
 const categories = ['Todos', 'Estructuras Metálicas', 'Carpintería de Aluminio', 'Cerrajería', 'Automatización', 'Forja Artística', 'Mobiliario Urbano', 'Manipulado de Vidrio', 'Metalistería']
 
 const ProyectosPage = () => {
+  const { localizedPath } = useLanguage()
   return (
     <HelmetProvider>
       <SEOHead 
@@ -280,7 +282,7 @@ const ProyectosPage = () => {
                   Cuéntanos tu idea y te ayudaremos a hacerla realidad. 
                   Solicita un presupuesto sin compromiso.
                 </p>
-                <Link to="/contacto" className="btn-premium inline-flex items-center gap-2">
+                <Link to={localizedPath("/contacto")} className="btn-premium inline-flex items-center gap-2">
                   Solicitar Presupuesto
                   <ArrowRight className="w-5 h-5" />
                 </Link>

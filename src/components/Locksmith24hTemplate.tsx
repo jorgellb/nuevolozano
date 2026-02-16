@@ -6,12 +6,14 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import type { Locksmith24hTown } from '@/data/locksmith24hData'
+import { useLanguage } from '@/hooks/useLanguage'
 
 interface Locksmith24hTemplateProps {
   town: Locksmith24hTown
 }
 
 export const Locksmith24hTemplate = ({ town }: Locksmith24hTemplateProps) => {
+  const { localizedPath } = useLanguage()
   const handleCall = () => {
     window.location.href = `tel:${town.phoneNumber}`
   }
@@ -300,7 +302,7 @@ export const Locksmith24hTemplate = ({ town }: Locksmith24hTemplateProps) => {
       <section className="py-12">
         <div className="container mx-auto px-6 text-center">
           <Link
-            to="/"
+            to={localizedPath("/")}
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
           >
             <ArrowRight className="w-4 h-4 rotate-180" />

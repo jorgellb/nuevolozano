@@ -2,33 +2,35 @@ import { Phone, Mail, MapPin, ArrowUp, ChevronDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useLanguage } from '@/hooks/useLanguage'
 import { townsData } from '@/data/townsData'
 import { locksmith24hData } from '@/data/locksmith24hData'
-
-const footerLinks = {
-  servicios: [
-    { label: 'Estructuras Metálicas', href: '/servicio/estructuras-metalicas' },
-    { label: 'Carpintería de Aluminio', href: '/servicio/carpinteria-aluminio' },
-    { label: 'Cerrajería', href: '/servicio/cerrajeria' },
-    { label: 'Automatización de Puertas', href: '/servicio/automatizacion' },
-    { label: 'Forja Artística', href: '/servicio/forja-artistica' },
-  ],
-  empresa: [
-    { label: 'Sobre Nosotros', href: '#nosotros' },
-    { label: 'Proyectos', href: '#proyectos' },
-    { label: 'Contacto', href: '#contacto' },
-    { label: 'Política de Privacidad', href: '/politica-privacidad' },
-    { label: 'Aviso Legal', href: '/aviso-legal' },
-  ],
-}
-
-
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear()
   const navigate = useNavigate()
+  const { t } = useTranslation()
+  const { localizedPath } = useLanguage()
   const [selectedTown, setSelectedTown] = useState('')
   const [selectedLocksmithTown, setSelectedLocksmithTown] = useState('')
+
+  const footerLinks = {
+    servicios: [
+      { label: t('projects.categories.estructuras'), href: localizedPath('/servicio/estructuras-metalicas') },
+      { label: t('projects.categories.aluminio'), href: localizedPath('/servicio/carpinteria-aluminio') },
+      { label: t('projects.categories.cerrajeria'), href: localizedPath('/servicio/cerrajeria') },
+      { label: t('projects.categories.automatizacion'), href: localizedPath('/servicio/automatizacion') },
+      { label: t('projects.categories.forja'), href: localizedPath('/servicio/forja-artistica') },
+    ],
+    empresa: [
+      { label: t('footer.aboutUs'), href: localizedPath('/nosotros') },
+      { label: t('footer.projects'), href: localizedPath('/proyectos') },
+      { label: t('footer.contact'), href: localizedPath('/contacto') },
+      { label: t('footer.privacyPolicy'), href: localizedPath('/politica-privacidad') },
+      { label: t('footer.legalNotice'), href: localizedPath('/aviso-legal') },
+    ],
+  }
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -38,7 +40,7 @@ export const Footer = () => {
     const slug = e.target.value
     setSelectedTown(slug)
     if (slug) {
-      navigate(`/servicios/${slug}`)
+      navigate(localizedPath(`/servicios/${slug}`))
     }
   }
 
@@ -46,7 +48,7 @@ export const Footer = () => {
     const slug = e.target.value
     setSelectedLocksmithTown(slug)
     if (slug) {
-      navigate(`/cerrajero-24h/${slug}`)
+      navigate(localizedPath(`/cerrajero-24h/${slug}`))
     }
   }
 
@@ -63,7 +65,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-4 mb-8 group">
+            <Link to={localizedPath('/')} className="flex items-center gap-4 mb-8 group">
               <div className="relative">
                 <div className="w-14 h-14 bg-gradient-gold rounded-xl flex items-center justify-center shadow-gold">
                   <span className="text-primary-foreground font-bold text-2xl font-display">M</span>
@@ -77,8 +79,7 @@ export const Footer = () => {
               </div>
             </Link>
             <p className="text-muted-foreground leading-relaxed">
-              Especialistas en carpintería metálica con más de 20 años de experiencia.
-              Calidad, profesionalismo y compromiso en cada proyecto.
+              {t('footer.description')}
             </p>
           </div>
 
@@ -86,7 +87,7 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-display font-bold text-foreground mb-8 flex items-center gap-3">
               <span className="w-8 h-0.5 bg-gradient-gold rounded-full" />
-              Servicios
+              {t('footer.services')}
             </h4>
             <ul className="space-y-4">
               {footerLinks.servicios.map((link, index) => (
@@ -107,7 +108,7 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-display font-bold text-foreground mb-8 flex items-center gap-3">
               <span className="w-8 h-0.5 bg-gradient-gold rounded-full" />
-              Empresa
+              {t('footer.company')}
             </h4>
             <ul className="space-y-4">
               {footerLinks.empresa.map((link, index) => (
@@ -128,7 +129,7 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-display font-bold text-foreground mb-8 flex items-center gap-3">
               <span className="w-8 h-0.5 bg-gradient-gold rounded-full" />
-              Zonas de Servicio
+              {t('footer.serviceZones')}
             </h4>
             <div className="relative">
               <select
@@ -136,7 +137,7 @@ export const Footer = () => {
                 onChange={handleTownChange}
                 className="w-full h-12 px-4 pr-10 rounded-xl border border-border/50 bg-background text-foreground text-sm appearance-none cursor-pointer hover:border-primary/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
               >
-                <option value="">Selecciona tu pueblo</option>
+                <option value="">{t('footer.selectTown')}</option>
                 {townsData.map((town) => (
                   <option key={town.slug} value={town.slug}>
                     {town.name}
@@ -146,7 +147,7 @@ export const Footer = () => {
               <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
             </div>
             <p className="text-xs text-muted-foreground mt-3">
-              Carpintería metálica por zona
+              {t('footer.metalworkByZone')}
             </p>
           </div>
 
@@ -154,7 +155,7 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-display font-bold text-foreground mb-8 flex items-center gap-3">
               <span className="w-8 h-0.5 bg-gradient-gold rounded-full" />
-              Cerrajero 24h
+              {t('footer.locksmith24h')}
             </h4>
             <div className="relative">
               <select
@@ -162,7 +163,7 @@ export const Footer = () => {
                 onChange={handleLocksmithTownChange}
                 className="w-full h-12 px-4 pr-10 rounded-xl border border-border/50 bg-background text-foreground text-sm appearance-none cursor-pointer hover:border-primary/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
               >
-                <option value="">Selecciona tu pueblo</option>
+                <option value="">{t('footer.selectTown')}</option>
                 {locksmith24hData.map((town) => (
                   <option key={town.slug} value={town.slug}>
                     {town.name}
@@ -172,7 +173,7 @@ export const Footer = () => {
               <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
             </div>
             <p className="text-xs text-muted-foreground mt-3">
-              Urgencias 24h en tu zona
+              {t('footer.urgenciesInZone')}
             </p>
           </div>
 
@@ -180,7 +181,7 @@ export const Footer = () => {
           <div>
             <h4 className="text-lg font-display font-bold text-foreground mb-8 flex items-center gap-3">
               <span className="w-8 h-0.5 bg-gradient-gold rounded-full" />
-              Contacto
+              {t('footer.contactTitle')}
             </h4>
             <div className="space-y-5">
               <a href="tel:+34653940750" className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors group">
@@ -208,17 +209,17 @@ export const Footer = () => {
         {/* Bottom bar */}
         <div className="mt-16 pt-10 border-t border-border/30 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-muted-foreground text-sm">
-            © {currentYear} Metales Del Sureste Andaluz. Todos los derechos reservados.
+            &copy; {currentYear} Metales Del Sureste Andaluz. {t('footer.rights')}
           </p>
           <div className="flex items-center gap-6">
             <p className="text-muted-foreground text-sm">
-              Diseñado con <span className="text-primary">❤</span> en <a href="https://platanitorico.com/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Platanito Rico</a>
+              {t('footer.designedWith')} <span className="text-primary">&#10084;</span> {t('footer.in')} <a href="https://platanitorico.com/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Platanito Rico</a>
             </p>
             <motion.button
               onClick={scrollToTop}
               whileHover={{ scale: 1.1, y: -2 }}
               className="icon-container w-12 h-12 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Volver arriba"
+              aria-label="Back to top"
             >
               <ArrowUp className="w-5 h-5" />
             </motion.button>

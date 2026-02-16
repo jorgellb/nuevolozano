@@ -6,13 +6,17 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { SEOHead } from '@/components/SEOHead'
 import { townsData } from '@/data/townsData'
+import { useLanguage } from '@/hooks/useLanguage'
+import { useTranslation } from 'react-i18next'
 
 const CarpinteriaZonaPage = () => {
+    const { localizedPath } = useLanguage()
+    const { t } = useTranslation()
     return (
         <HelmetProvider>
             <SEOHead
-                title="Carpintería Metálica en Almería y Levante | Cobertura y Servicios"
-                description="Servicios de carpintería metálica, estructuras y aluminio en toda la zona del Levante Almeriense. Huércal-Overa, Vera, Mojácar y más. Calidad Premium."
+                title={t('carpinteria.zonePageTitle')}
+                description={t('carpinteria.zonePageDesc')}
             />
             <div className="min-h-screen bg-background">
                 <Header />
@@ -31,15 +35,15 @@ const CarpinteriaZonaPage = () => {
                                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 mb-6"
                                 >
                                     <Star className="w-4 h-4 fill-primary" />
-                                    <span className="font-bold text-sm uppercase tracking-wide">Excelencia en Metal</span>
+                                    <span className="font-bold text-sm uppercase tracking-wide">{t('carpinteria.excellenceTag')}</span>
                                 </motion.div>
 
                                 <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground mb-6 leading-tight">
-                                    Carpintería Metálica en <span className="text-gradient-gold">Almería y Levante</span>
+                                    {t('carpinteria.heroTitle')} <span className="text-gradient-gold">{t('carpinteria.heroHighlight')}</span>
                                 </h1>
 
                                 <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-                                    Desplegamos nuestra experiencia y artesanía en toda la comarca. Desde grandes estructuras industriales en Huércal-Overa hasta cerramientos de diseño en la costa de Mojácar.
+                                    {t('carpinteria.heroDesc')}
                                 </p>
                             </div>
 
@@ -53,7 +57,7 @@ const CarpinteriaZonaPage = () => {
                                         transition={{ delay: index * 0.05 }}
                                         viewport={{ once: true }}
                                     >
-                                        <Link to={`/servicios/${town.slug}`} className="block h-full group">
+                                        <Link to={localizedPath(`/servicios/${town.slug}`)} className="block h-full group">
                                             <div className="card-premium h-full rounded-2xl overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-500 flex flex-col">
 
                                                 {/* Image area */}
@@ -91,7 +95,7 @@ const CarpinteriaZonaPage = () => {
 
                                                     <div className="mt-auto flex items-center justify-between border-t border-border/50 pt-4 group-hover:border-primary/30 transition-colors">
                                                         <span className="text-sm font-semibold text-primary">
-                                                            Ver Proyectos
+                                                            {t('carpinteria.viewProjects')}
                                                         </span>
                                                         <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-black transition-all duration-300">
                                                             <ArrowRight className="w-4 h-4" />
@@ -112,23 +116,21 @@ const CarpinteriaZonaPage = () => {
                                     <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
                                         <div>
                                             <h2 className="text-3xl font-display font-bold text-foreground mb-6">
-                                                Líderes en Metalistería y Estructuras
+                                                {t('carpinteria.seoTitle')}
                                             </h2>
                                             <div className="prose prose-invert text-muted-foreground">
                                                 <p>
-                                                    Nuestra presencia en el Levante Almeriense no es casualidad. Llevamos más de una década transformando espacios con metal, vidrio y aluminio.
+                                                    {t('carpinteria.seoText1')}
                                                 </p>
-                                                <p>
-                                                    Entendemos las necesidades específicas de cada localidad: la resistencia a la salinidad necesaria en <strong>Vera Playa</strong> y <strong>Garrucha</strong>, la robustez industrial requerida en <strong>Huércal-Overa</strong> y <strong>Cuevas de Almanzora</strong>, y la integración estética fundamental en pueblos como <strong>Mojácar</strong>.
-                                                </p>
+                                                <p dangerouslySetInnerHTML={{ __html: t('carpinteria.seoText2') }} />
                                             </div>
                                         </div>
 
                                         <div className="grid gap-4">
                                             {[
-                                                { icon: Hammer, title: "Fabricación Propia", desc: "Taller equipado con tecnología CNC." },
-                                                { icon: Construction, title: "Montaje Certificado", desc: "Equipo técnico cualificado y seguro." },
-                                                { icon: Shield, title: "Garantía Premium", desc: "Respaldo total en cada instalación." }
+                                                { icon: Hammer, title: t('carpinteria.ownManufacturing'), desc: t('carpinteria.ownManufacturingDesc') },
+                                                { icon: Construction, title: t('carpinteria.certifiedAssembly'), desc: t('carpinteria.certifiedAssemblyDesc') },
+                                                { icon: Shield, title: t('carpinteria.premiumGuarantee'), desc: t('carpinteria.premiumGuaranteeDesc') }
                                             ].map((item, i) => (
                                                 <div key={i} className="flex items-start gap-4 p-4 rounded-xl bg-background/50 border border-white/5 hover:border-primary/20 transition-colors">
                                                     <div className="p-3 rounded-lg bg-primary/10 text-primary">

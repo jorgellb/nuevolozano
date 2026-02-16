@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Phone, Mail, Clock, Siren } from 'lucide-react'
-
-const navLinks = [
-  { href: '/', label: 'Inicio' },
-  { href: '/servicios', label: 'Servicios' },
-  { href: '/nosotros', label: 'Nosotros' },
-  { href: '/proyectos', label: 'Proyectos' },
-  { href: '/contacto', label: 'Contacto' },
-]
+import { Menu, X, Phone, Mail, Clock } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { useLanguage } from '@/hooks/useLanguage'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const { t } = useTranslation()
+  const { localizedPath } = useLanguage()
+
+  const navLinks = [
+    { href: localizedPath('/'), label: t('nav.home') },
+    { href: localizedPath('/servicios'), label: t('nav.services') },
+    { href: localizedPath('/nosotros'), label: t('nav.about') },
+    { href: localizedPath('/proyectos'), label: t('nav.projects') },
+    { href: localizedPath('/contacto'), label: t('nav.contact') },
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,25 +60,28 @@ export const Header = () => {
           </div>
 
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-8">
-            <Link to="/cerrajero-24h" className="flex items-center gap-2 group">
+            <Link to={localizedPath('/cerrajero-24h')} className="flex items-center gap-2 group">
               <div className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
               </div>
-              <span className="font-bold text-red-600 group-hover:text-red-700 transition-colors uppercase tracking-wide text-[10px] sm:text-xs">Cerrajero 24h</span>
+              <span className="font-bold text-red-600 group-hover:text-red-700 transition-colors uppercase tracking-wide text-[10px] sm:text-xs">{t('nav.locksmith24h')}</span>
             </Link>
 
-            <Link to="/carpinteria-metalica-zona" className="flex items-center gap-2 group">
+            <Link to={localizedPath('/carpinteria-metalica-zona')} className="flex items-center gap-2 group">
               <div className="relative flex h-2.5 w-2.5">
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
               </div>
-              <span className="font-bold text-primary group-hover:text-yellow-600 transition-colors uppercase tracking-wide text-[10px] sm:text-xs">Carpintería Metálica</span>
+              <span className="font-bold text-primary group-hover:text-yellow-600 transition-colors uppercase tracking-wide text-[10px] sm:text-xs">{t('nav.metalwork')}</span>
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Clock className="w-4 h-4 text-primary" />
-            <span>Lun - Vie: 9:00 - 20:00</span>
+          <div className="flex items-center gap-4 text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" />
+              <span>{t('nav.schedule')}</span>
+            </div>
+            <LanguageSwitcher />
           </div>
         </div>
       </div>
@@ -82,7 +90,7 @@ export const Header = () => {
       <nav className={`container mx-auto px-6 transition-all duration-500 ${isScrolled ? 'py-4' : 'py-5'}`}>
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-4 group">
+          <Link to={localizedPath('/')} className="flex items-center gap-4 group">
             <div className="relative">
               <div className="w-14 h-14 bg-gradient-gold rounded-xl flex items-center justify-center shadow-gold group-hover:shadow-gold-intense transition-all duration-300">
                 <span className="text-primary-foreground font-bold text-2xl font-display">M</span>
@@ -112,19 +120,22 @@ export const Header = () => {
                 </Link>
               )
             })}
-            <Link to="/contacto" className="btn-premium ml-4">
-              Pedir Presupuesto
+            <Link to={localizedPath('/contacto')} className="btn-premium ml-4">
+              {t('nav.requestQuote')}
             </Link>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-3 rounded-xl bg-muted/50 text-foreground hover:text-primary hover:bg-muted transition-all duration-300"
-            aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile menu button + language switcher */}
+          <div className="flex items-center gap-3 lg:hidden">
+            <LanguageSwitcher />
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-3 rounded-xl bg-muted/50 text-foreground hover:text-primary hover:bg-muted transition-all duration-300"
+              aria-label={isMobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -163,8 +174,8 @@ export const Header = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <Link to="/contacto" className="btn-premium mt-6 w-full text-center block">
-                  Pedir Presupuesto
+                <Link to={localizedPath('/contacto')} className="btn-premium mt-6 w-full text-center block">
+                  {t('nav.requestQuote')}
                 </Link>
               </motion.div>
               <motion.div

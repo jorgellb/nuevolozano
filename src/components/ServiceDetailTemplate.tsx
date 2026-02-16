@@ -11,6 +11,7 @@ import { ServiceData } from '@/data/servicesData'
 import { z } from 'zod'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { useLanguage } from '@/hooks/useLanguage'
 
 const quoteSchema = z.object({
   name: z.string().trim().min(1, 'El nombre es obligatorio').max(100),
@@ -24,6 +25,7 @@ interface ServiceDetailTemplateProps {
 }
 
 export const ServiceDetailTemplate = ({ service }: ServiceDetailTemplateProps) => {
+  const { localizedPath } = useLanguage()
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [formData, setFormData] = useState({
     name: '',
@@ -77,7 +79,7 @@ export const ServiceDetailTemplate = ({ service }: ServiceDetailTemplateProps) =
 
       <main className="pt-48 pb-10">
         <div className="container mx-auto px-6 mb-12">
-          <Link to="/servicios">
+          <Link to={localizedPath("/servicios")}>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}

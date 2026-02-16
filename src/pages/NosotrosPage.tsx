@@ -6,6 +6,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { SEOHead } from '@/components/SEOHead'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
+import { useLanguage } from '@/hooks/useLanguage'
 
 const values = [
   {
@@ -46,6 +47,7 @@ const stats = [
 ]
 
 const NosotrosPage = () => {
+  const { localizedPath } = useLanguage()
   return (
     <HelmetProvider>
       <SEOHead 
@@ -80,11 +82,11 @@ const NosotrosPage = () => {
                     500 proyectos satisfactoriamente.
                   </p>
                   <div className="flex flex-wrap gap-4">
-                    <Link to="/contacto" className="btn-premium inline-flex items-center gap-2">
+                    <Link to={localizedPath("/contacto")} className="btn-premium inline-flex items-center gap-2">
                       Contactar
                       <ArrowRight className="w-5 h-5" />
                     </Link>
-                    <Link to="/servicios" className="btn-outline-premium">
+                    <Link to={localizedPath("/servicios")} className="btn-outline-premium">
                       Ver Servicios
                     </Link>
                   </div>
@@ -322,7 +324,7 @@ const NosotrosPage = () => {
                 <p className="text-lg text-muted-foreground mb-8">
                   Contacta con nuestro equipo y descubre cómo podemos ayudarte con tu próximo proyecto.
                 </p>
-                <Link to="/contacto" className="btn-premium inline-flex items-center gap-2">
+                <Link to={localizedPath("/contacto")} className="btn-premium inline-flex items-center gap-2">
                   Contactar Ahora
                   <ArrowRight className="w-5 h-5" />
                 </Link>

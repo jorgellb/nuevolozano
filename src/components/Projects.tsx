@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Eye } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '@/hooks/useLanguage'
 
 const projects = [
   {
@@ -30,6 +31,7 @@ const projects = [
 ]
 
 export const Projects = () => {
+  const { localizedPath } = useLanguage()
   return (
     <section id="proyectos" className="relative py-32 overflow-hidden">
       {/* Background */}
@@ -130,7 +132,7 @@ export const Projects = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-16"
         >
-          <Link to="/proyectos" className="btn-outline-premium inline-flex items-center">
+          <Link to={localizedPath("/proyectos")} className="btn-outline-premium inline-flex items-center">
             Ver Todos los Proyectos
             <ArrowRight className="w-5 h-5 ml-2" />
           </Link>

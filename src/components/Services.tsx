@@ -2,8 +2,12 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { servicesData } from '@/data/servicesData'
+import { useLanguage } from '@/hooks/useLanguage'
+import { useTranslation } from 'react-i18next'
 
 export const Services = () => {
+  const { localizedPath } = useLanguage()
+  const { t } = useTranslation()
   return (
     <section id="servicios" className="relative py-32 overflow-hidden">
       {/* Background gradient */}
@@ -24,15 +28,14 @@ export const Services = () => {
           className="text-center mb-20"
         >
           <span className="tag-premium inline-block mb-6">
-            Nuestros Servicios
+            {t('services.tag')}
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-8 leading-tight">
-            Soluciones Integrales en{' '}
-            <span className="text-gradient-gold">Carpintería Metálica</span>
+            {t('services.title')}{' '}
+            <span className="text-gradient-gold">{t('services.titleHighlight')}</span>
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-            Ofrecemos una amplia gama de servicios especializados con los más altos
-            estándares de calidad para satisfacer todas las necesidades de nuestros clientes.
+            {t('services.description')}
           </p>
           <div className="ornament-line mx-auto mt-10" />
         </motion.div>
@@ -50,7 +53,7 @@ export const Services = () => {
                 transition={{ duration: 0.6, delay: index * 0.08 }}
                 className="group"
               >
-                <Link to={`/servicio/${service.slug}`} className="block h-full">
+                <Link to={localizedPath(`/servicio/${service.slug}`)} className="block h-full">
                   <div className="card-premium h-full rounded-2xl p-8 relative overflow-hidden">
                     {/* Hover glow effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -69,7 +72,7 @@ export const Services = () => {
                       </p>
 
                       <div className="flex items-center gap-2 text-primary text-sm font-semibold opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                        <span>Más información</span>
+                        <span>{t('services.viewDetails')}</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
