@@ -31,11 +31,14 @@ export const SEOHead = ({
 
   // Build canonical URL from current path
   const canonicalUrl = canonical || `${BASE_URL}${location.pathname}`
-  
+
   // Build alternate URLs for hreflang
   const pathWithoutLang = location.pathname.replace(/^\/(es|en)/, '') || '/'
-  const esUrl = `${BASE_URL}/es${pathWithoutLang === '/' ? '' : pathWithoutLang}`
-  const enUrl = `${BASE_URL}/en${pathWithoutLang === '/' ? '' : pathWithoutLang}`
+  const isRoot = pathWithoutLang === '/'
+  const esUrl = `${BASE_URL}/es${isRoot ? '' : pathWithoutLang}`
+  const enUrl = `${BASE_URL}/en${isRoot ? '' : pathWithoutLang}`
+  // x-default should point to the route that handles language detection/redirection
+  const xDefaultUrl = `${BASE_URL}${isRoot ? '' : pathWithoutLang}`
 
   const ogLocale = currentLang === 'es' ? 'es_ES' : 'en_US'
   const ogLocaleAlternate = currentLang === 'es' ? 'en_US' : 'es_ES'
@@ -168,7 +171,7 @@ export const SEOHead = ({
       {/* Hreflang Tags for SEO */}
       <link rel="alternate" hrefLang="es" href={esUrl} />
       <link rel="alternate" hrefLang="en" href={enUrl} />
-      <link rel="alternate" hrefLang="x-default" href={esUrl} />
+      <link rel="alternate" hrefLang="x-default" href={xDefaultUrl} />
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />

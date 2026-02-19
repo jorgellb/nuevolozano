@@ -9,7 +9,7 @@ export const Hero = () => {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-20 lg:pt-32"
     >
       {/* Background Image with Parallax Effect */}
       <div className="absolute inset-0">
@@ -38,8 +38,8 @@ export const Hero = () => {
       <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-accent/5 rounded-full blur-3xl animate-pulse-slow delay-500" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 pt-40 pb-24">
-        <div className="max-w-4xl">
+      <div className="relative z-10 container mx-auto px-6 py-12 md:py-24">
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -55,10 +55,11 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: 'easeOut' }}
-            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold text-foreground leading-[1.1] mb-8"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold text-foreground leading-[1.1] mb-8"
           >
             {t('hero.title1')}{' '}
-            <span className="text-gradient-gold relative">
+            <br className="block sm:hidden" />
+            <span className="text-gradient-gold relative whitespace-nowrap">
               {t('hero.titleHighlight')}
               <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 8" fill="none">
                 <path d="M0 4C50 0 150 8 200 4" stroke="url(#gold-gradient)" strokeWidth="3" strokeLinecap="round" />
@@ -79,7 +80,7 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-            className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl leading-relaxed"
+            className="text-lg md:text-xl lg:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed"
           >
             {t('hero.description')}
           </motion.p>
@@ -88,12 +89,12 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.45, ease: 'easeOut' }}
-            className="flex flex-col sm:flex-row gap-5"
+            className="flex flex-col sm:flex-row gap-5 justify-center w-full sm:w-auto"
           >
-            <a href="#contacto" className="btn-premium text-lg px-10 py-5 text-center">
+            <a href="#contacto" className="btn-premium text-lg px-8 py-4 sm:px-10 sm:py-5 text-center w-full sm:w-auto">
               {t('hero.cta1')}
             </a>
-            <a href="#proyectos" className="btn-outline-premium text-lg px-10 py-5 text-center">
+            <a href="#proyectos" className="btn-outline-premium text-lg px-8 py-4 sm:px-10 sm:py-5 text-center w-full sm:w-auto">
               {t('hero.cta2')}
             </a>
           </motion.div>
@@ -103,7 +104,7 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
-            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12"
+            className="mt-16 md:mt-24 grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 w-full"
           >
             {[
               { number: '20+', label: t('hero.stats.experience') },
@@ -113,15 +114,15 @@ export const Hero = () => {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="text-center md:text-left group"
+                className="text-center group"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
               >
-                <p className="text-4xl md:text-5xl lg:text-6xl font-bold text-gradient-gold font-display mb-2 group-hover:scale-105 transition-transform duration-300">
+                <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gradient-gold font-display mb-2 group-hover:scale-105 transition-transform duration-300">
                   {stat.number}
                 </p>
-                <p className="text-sm md:text-base text-muted-foreground font-medium">{stat.label}</p>
+                <p className="text-xs sm:text-sm md:text-base text-muted-foreground font-medium uppercase tracking-wider">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -133,7 +134,7 @@ export const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:block"
       >
         <a
           href="#servicios"
